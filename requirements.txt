@@ -3,3 +3,4 @@ uvicorn==0.34.0
 yt-dlp==2026.8.19
 curl-cffi==0.15.0
 requests==2.32.3
+imageio-ffmpeg
