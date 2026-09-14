@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Video Downloader</title>
+    <link rel="icon" type="image/jpeg" href="/static/favicon.jpg">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Video Downloader</h1>
+            <p>Download from YouTube, Facebook, TikTok, Amazon, and more!</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-wrapper">
+                <input type="text" id="video-url" placeholder="Paste video URL here...">
+                <button id="clear-btn" class="icon-btn hidden" title="Clear">✖</button>
+                <button id="paste-btn" class="icon-btn" title="Paste">📋</button>
+            </div>
+            <button id="extract-btn">Extract Video</button>
+        </div>
+
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+            <p>Extracting video information...</p>
+        </div>
+
+        <div id="error-msg" class="error-msg hidden"></div>
+
+        <div id="result-section" class="result-section hidden">
+            <div class="video-info">
+                <img id="video-thumb" src="" alt="Thumbnail">
+                <div class="video-details">
+                    <h2 id="video-title">Title</h2>
+                    <p id="video-uploader">Uploader</p>
+                    <p id="video-duration">Duration: <span></span></p>
+                </div>
+            </div>
+
+            <div class="formats-section">
+                <h3>Available Formats</h3>
+                <ul id="formats-list">
+                    <!-- Formats will be injected here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn hidden">✖</button>
+            <h3 id="progress-title">Downloading Video</h3>
+            <p id="progress-status">Preparing...</p>
+            <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+            <p id="progress-percent">0%</p>
+            <button id="done-modal-btn" class="download-btn hidden" style="margin-top: 15px;">Close</button>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
