@@ -42,6 +42,10 @@ async def extract_info(request: URLRequest):
         'no_warnings': True,
         'skip_download': True,
     }
+    if os.path.exists("cookies.txt"):
+        ydl_opts['cookiefile'] = "cookies.txt"
+    elif os.path.exists("/etc/secrets/cookies.txt"):
+        ydl_opts['cookiefile'] = "/etc/secrets/cookies.txt"
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(request.url, download=False)
@@ -163,6 +167,10 @@ async def download_video(url: str, format_id: str, task_id: str, background_task
         'no_warnings': True,
         'progress_hooks': [my_hook],
     }
+    if os.path.exists("cookies.txt"):
+        ydl_opts['cookiefile'] = "cookies.txt"
+    elif os.path.exists("/etc/secrets/cookies.txt"):
+        ydl_opts['cookiefile'] = "/etc/secrets/cookies.txt"
     
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
