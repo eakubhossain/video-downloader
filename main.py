@@ -10,6 +10,19 @@ import uuid
 import imageio_ffmpeg
 import urllib.parse
 
+def get_cookie_file():
+    env_cookies = os.environ.get("YOUTUBE_COOKIES")
+    if env_cookies:
+        cookie_path = os.path.join(tempfile.gettempdir(), "youtube_cookies.txt")
+        with open(cookie_path, "w", encoding="utf-8") as f:
+            f.write(env_cookies.replace('\\n', '\n'))
+        return cookie_path
+    if os.path.exists("cookies.txt"):
+        return "cookies.txt"
+    if os.path.exists("/etc/secrets/cookies.txt"):
+        return "/etc/secrets/cookies.txt"
+    return None
+
 app = FastAPI()
 
 static_dir = os.path.join(os.path.dirname(__file__), "static")
@@ -42,10 +55,9 @@ async def extract_info(request: URLRequest):
         'no_warnings': True,
         'skip_download': True,
     }
-    if os.path.exists("cookies.txt"):
-        ydl_opts['cookiefile'] = "cookies.txt"
-    elif os.path.exists("/etc/secrets/cookies.txt"):
-        ydl_opts['cookiefile'] = "/etc/secrets/cookies.txt"
+    cookie_file = get_cookie_file()
+    if cookie_file:
+        ydl_opts['cookiefile'] = cookie_file
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(request.url, download=False)
@@ -167,10 +179,9 @@ async def download_video(url: str, format_id: str, task_id: str, background_task
         'no_warnings': True,
         'progress_hooks': [my_hook],
     }
-    if os.path.exists("cookies.txt"):
-        ydl_opts['cookiefile'] = "cookies.txt"
-    elif os.path.exists("/etc/secrets/cookies.txt"):
-        ydl_opts['cookiefile'] = "/etc/secrets/cookies.txt"
+    cookie_file = get_cookie_file()
+    if cookie_file:
+        ydl_opts['cookiefile'] = cookie_file
     
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
